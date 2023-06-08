@@ -1,38 +1,42 @@
-const searchHelper = (searchKey, query, req) => {
+const searchHelper = (query, req) => {
 
-    if ( req.query.search){
+    if ( req.query.name || req.query.profession || req.query.place){
         const searchObject = {};
 
-        const regex = new RegExp(req.query.search, "i");
-        searchObject[searchKey] = regex;
+        const regex = new RegExp(req.query.name, "i");
+        const regex2 = new RegExp(req.query.profession, "i");
+        const regex3 = new RegExp(req.query.place, "i");
+        searchObject["name"] = regex;
+        searchObject["profession"] = regex2;
+        searchObject["place"] = regex3;
 
         return query.where(searchObject);
     }
-
     return query;
 };
 
-const populateHelper = (query, population) => {
-    return query.populate(population);
-};
 
-const questionSortHelper = (query, req) => {
+const doctorSortHelper = (query, req) => {
 
     const sortKey = req.query.sortBy;
     
-    if (sortKey === "most-answered"){
-        return query.sort("-answerCount -createdAt");
+    if (sortKey === "most-star"){
+        return query.sort("-star");
     }
-    if (sortKey === "most-liked"){
-        return query.sort("-likeCount -createdAt");
+    if (sortKey === "-most-star"){
+        return query.sort("star");
     }
-    return query.sort("-createdAt");
+    if (sortKey === "most-rated"){
+        return query.sort("-commentCount");
+    }
+    if (sortKey === "-most-rated"){
+        return query.sort("commentCount");
+    }
+    return query;
 
 };
 
-const albumSortHelper = (query, req) => {
-    return query.sort("-createdAt");
-}
+
 
 const paginationHelper = async (model, query, req) => {
     const page = parseInt(req.query.page) || 1;
@@ -57,7 +61,7 @@ const paginationHelper = async (model, query, req) => {
             limit : limit
         };
     }
-
+    console.log(total, "Total")
     return {
         query : query.skip(startIndex).limit(limit),
         pagination : pagination
@@ -65,8 +69,6 @@ const paginationHelper = async (model, query, req) => {
 };
 module.exports = {
     searchHelper,
-    populateHelper,
-    questionSortHelper,
+    doctorSortHelper,
     paginationHelper,
-    albumSortHelper
 }

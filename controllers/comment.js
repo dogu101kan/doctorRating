@@ -39,12 +39,15 @@ const addNewComment = asyncErrorWrapper(async(req, res, next) => {
 });
 
 const getAllComments = asyncErrorWrapper(async(req, res, next) => {
-    const comment = await Comment.find({ doctor : req.params.id });
+    // const comment = await Comment.find({ doctor : req.params.id });
 
-    res.status(200).json({
-        succes : true,
-        data : comment
-    });
+    // res.status(200).json({
+    //     succes : true,
+    //     data : comment
+    // });
+
+    res.status(200).json(res.queryResults);
+
 });
 
 const deleteComment = asyncErrorWrapper(async(req, res, next) => {

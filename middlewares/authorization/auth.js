@@ -30,8 +30,21 @@ const getAccesToRoute = (req, res, next) => {
     });
 };
 
+const getAdminAccess = asyncErrorWrapper(async(req, res, next) =>{
+    
+    const {id} = req.user;
+    const user = await User.findById(id);
+    console.log(user)
+
+    if(user.role !== "admin"){
+        return next(new CustomError("Only admins can access this route", 403));
+    }
+
+    next();
+});
 
 
 module.exports = {
     getAccesToRoute,
+    getAdminAccess
 }

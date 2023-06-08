@@ -4,14 +4,9 @@ const { model } = require("mongoose");
 
 
 const getAllDoctors = asyncErrorWrapper(async(req, res, next) => {
-        
-        let query =  await Doctor.find();
 
         res.status(200)
-    .json({
-        success : true,
-        data : query
-    });
+    .json(res.queryResults);
 });
 
 const getSingleDoctor = (req, res, next) => {
