@@ -49,7 +49,15 @@ const UserSchema = new Schema({
     resetPasswordTokenExpire : {
         type : Date
     }
-});
+},
+{
+    toJSON: {
+      transform(doc, ret) {
+        delete ret.password;
+      },
+    },
+  },
+  );
 
 // UserSchema Methods // Json web token
 UserSchema.methods.generateJwtFromUser = function(){
