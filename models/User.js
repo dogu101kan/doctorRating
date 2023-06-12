@@ -25,10 +25,19 @@ const UserSchema = new Schema({
         required : [true, "'Please provide a password"],
         select : false // getAllUsers diye fonksiyon yarattığımızda password alanının görünmemesini sağlar
     },
+    birthday : {
+        type : Date
+    },
+    adress : {
+        type : String
+    },
+    city : {
+        type : String
+    },
     role : {
         type : String,
         enum : ["user", "admin"],
-        default : ["user"]
+        default : "user"
     },
     createdAt : {
         type : Date,

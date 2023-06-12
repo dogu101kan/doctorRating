@@ -10,16 +10,17 @@ const register = asyncErrorWrapper(async (req, res, next) => {
     //POST DATA
     //console.log(req.body);
     
-    const {name, email, password} = req.body;
-
+    const {name, email, password, birthday, adress, city} = req.body;
+    // Doğum tarihi, telefon, açık adres, şehir eklenecek
     // async, await yapısı ile 
     
     const user = await User.create({
         name,
         email,
-        password,                // yukarıdakilerde değişkenlerin isimleri user 
-                                // ile eşleştiği için ES6 ile gelen güncellemede tekrar 
-                                // name : name yapmaya gerek yok.
+        password,
+        birthday,
+        adress,                  
+        city                    
     });
 
     
