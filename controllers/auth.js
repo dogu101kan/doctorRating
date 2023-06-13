@@ -3,6 +3,7 @@ const CustomError = require("../helpers/error/CustomError");
 const asyncErrorWrapper = require("express-async-handler");
 const {sendJwtToClient} = require("../helpers/authorization/tokenHelper");
 const {validateUserInput,comparePassword} = require("../helpers/input/inputHelper");
+const sendEmail = require("../helpers/libraries/sendEmail");
 
 
 const register = asyncErrorWrapper(async (req, res, next) => {
@@ -80,6 +81,7 @@ const forgotPassword = asyncErrorWrapper(async(req, res, next) => {
     const resetEmail = req.body.email;
     const user = await User.findOne({email : resetEmail});
     
+    
     if(!user){
         return next(new CustomError("Email doesn't exist."), 400);
     }
@@ -88,7 +90,7 @@ const forgotPassword = asyncErrorWrapper(async(req, res, next) => {
 
     await user.save(); //degistirdigimiz degerleri kaydediyoruz modele
 
-    const resetPasswordUrl = `http://localhost:5000/api/auth/resetpassword?resetPasswordToken=${resetPasswordToken}`;
+    const resetPasswordUrl = `http://${req.body.websiteURL}/api/auth/resetpassword?resetPasswordToken=${resetPasswordToken}`;
     
     const emailTemplate = `
     <h3>Reset Your Password</h3>
@@ -107,7 +109,6 @@ const forgotPassword = asyncErrorWrapper(async(req, res, next) => {
             success : true,
             message : "Token sent to your email."
         });
-        
     }
     catch(err){
         user.resetPasswordToken = undefined;

@@ -9,8 +9,9 @@ const profileImageUpload = require("../middlewares/libraries/profileImageUpload"
 router.post("/register", register);
 router.post("/login", login);
 router.get("/logout", getAccesToRoute, logout);
-//router.post("/forgotpassword", forgotPassword);
-//router.put("/resetpassword", resetPassword);
+router.get("/profile", getAccesToRoute, getUser);
+router.post("/forgotpassword", forgotPassword);
+router.put("/resetpassword", resetPassword);
 
 
 
